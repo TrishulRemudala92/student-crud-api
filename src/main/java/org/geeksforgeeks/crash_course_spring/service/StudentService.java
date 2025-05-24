@@ -28,6 +28,18 @@ public class StudentService {
 		return optionalValue.orElse(null);	
 		
 	}
+	public Student UpdateStudent(Student student) {
+		Student existingStudent=this.getStudentById(student.getId());
+		if(existingStudent==null) {
+			// Student doesn't exist
+			return null;	
+		}
+		
+		existingStudent.setFirstName(student.getFirstName());
+		existingStudent.setLastName(student.getLastName());
+		return this.studentRepository.save(existingStudent);
+	}
+	
 	public void deleteStudentById(long studentId) {
 		this.studentRepository.deleteById(studentId);
 	}

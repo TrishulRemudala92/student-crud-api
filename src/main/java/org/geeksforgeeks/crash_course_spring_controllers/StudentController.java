@@ -26,10 +26,19 @@ public class StudentController {
 		return this.studentService.addStudent(student);
 	}
 	@GetMapping("/{studentId}")
-	public Student getStudentById(@PathVariable(name="studentId") long studentId) {
+	public Student getStudentById(@PathVariable(name="studentId") long studentId) {	
 	return this.studentService.getStudentById(studentId);
 		
 	} 
+	
+	@PutMapping("/{studentId}") 
+	public Student updateStudent(@PathVariable long studentId, @RequestBody Student student) {
+		if(studentId != student.getId()) {
+			//Throw some error
+		}
+		return this.studentService.UpdateStudent(student);
+	}
+	
 	@DeleteMapping("/{studentId}")
 	public void deleteStudentById(@PathVariable long studentId) {
 	this.studentService.deleteStudentById(studentId);
