@@ -80,6 +80,6 @@ public class StudentController {
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
 		}
-
+// system.out.println("Test sync")
 	}
 }
