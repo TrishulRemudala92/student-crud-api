@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.geeksforgeeks.crash_course_spring.entities.Student;
 import org.geeksforgeeks.crash_course_spring.repository.StudentRepository;
+import org.geeksforgeeks.crash_course_spring_exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +26,14 @@ public class StudentService {
 	}
 	public Student getStudentById(long studentId) {
 		Optional<Student> optionalValue=this.studentRepository.findById(studentId);
-		return optionalValue.orElse(null);	
-		
+		if(optionalValue.isEmpty()) {
+			throw new NotFoundException("Student with ID: + studentId + was not found.");
+		}
+			
+		return optionalValue.get();
 	}
 	public Student UpdateStudent(Student student) {
 		Student existingStudent=this.getStudentById(student.getId());
-		if(existingStudent==null) {
-			// Student doesn't exist
-			return null;	
-		}
-		
 		existingStudent.setFirstName(student.getFirstName());
 		existingStudent.setLastName(student.getLastName());
 		return this.studentRepository.save(existingStudent);

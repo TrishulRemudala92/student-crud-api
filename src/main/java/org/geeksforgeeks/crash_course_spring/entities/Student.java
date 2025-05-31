@@ -1,6 +1,9 @@
 package org.geeksforgeeks.crash_course_spring.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
@@ -17,9 +20,11 @@ public class Student {
 private long id;
 
 @Column(name="first_name",nullable=false)
+@NotBlank(message="First Name must not be null")
 private String firstName;
 
 @Column(name="last_name",nullable=false)
+@NotBlank
 private String lastName;
 
 //--- Getters and Setters ---
@@ -48,6 +53,7 @@ public void setLastName(String lastName) {
     this.lastName = lastName;
 }
 }
+
 
 
 
