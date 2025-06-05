@@ -1,6 +1,7 @@
 package org.geeksforgeeks.crash_course_spring.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 
@@ -26,6 +27,10 @@ private String firstName;
 @Column(name="last_name",nullable=false)
 @NotBlank
 private String lastName;
+
+@Column(name="email", nullable=false, unique=true)
+@Email
+private String email;
 
 //--- Getters and Setters ---
 
