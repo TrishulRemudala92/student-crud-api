@@ -19,8 +19,6 @@ public class StudentService {
 
 }
 	public Student addStudent(Student student) {
-		/*Student addedStudent =this.studentRepository.save(student);
-		return addedStudent;*/
 		return this.studentRepository.save(student);
 
 	}
@@ -42,4 +40,5 @@ public class StudentService {
 	public void deleteStudentById(long studentId) {
 		this.studentRepository.deleteById(studentId);
 	}
+	// system.out.println("Test is sync")
 }
