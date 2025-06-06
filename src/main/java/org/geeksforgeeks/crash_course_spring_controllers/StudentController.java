@@ -35,8 +35,10 @@ public class StudentController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> addStudent(@RequestBody @Valid Student student) {
+	public ResponseEntity<?> addStudent(@RequestBody @Valid Student student) {	
 		try {
+			 // Debug line to check if email is being received
+	        System.out.println("EMAIL CHECK: " + student.getEmail());
 			return ResponseEntity.ok(this.studentService.addStudent(student));
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
@@ -81,5 +83,5 @@ public class StudentController {
 			return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
 		}
 // system.out.println("Test is sync")
-	}
+	}	
 }
