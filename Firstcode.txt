@@ -1,5 +1,0 @@
-Hello World !!!
-take inputs from user and 
-add  the values 
-
-submit data to the database
