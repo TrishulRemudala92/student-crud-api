@@ -25,6 +25,12 @@ public class CourseController {
 }
 	@PostMapping("/add")
 	public ResponseEntity<?> addCourse(@RequestBody @Valid Course course) {
+		System.out.println("Course received:");
+	    System.out.println("Name: " + course.getName());
+	    System.out.println("Capacity: " + course.getCapacity());
+	    System.out.println("Mentor ID: " + (course.getMentor() != null ? course.getMentor().getId() : "null"));
+		System.out.println("Received capacity: " + course.getCapacity());
+
 	return new ResponseEntity<>(this.courseService.addCourse(course), HttpStatus.CREATED);
 	}
 }

@@ -1,0 +1,13 @@
+# Ignore build output
+target/
+*.class
+*.jar
+*.log
+
+# IDE files
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
