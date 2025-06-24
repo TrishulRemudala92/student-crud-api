@@ -1,0 +1,43 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_REGION: eu-central-1
+    ACCOUNT_ID: 779500582907
+    REPOSITORY_URI: 779500582907.dkr.ecr.eu-central-1.amazonaws.com/student-crud-api
+    CLUSTER_NAME: student-crud-cluster
+    SERVICE_NAME: student-crud-task-service         
+    CONTAINER_NAME: student-crud-container    
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - ./mvnw clean package -DskipTests
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing Docker images...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
+      - echo Writing imagedefinitions.json file...
+      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo Deploying to ECS...
+      - aws ecs update-service \
+          --cluster $CLUSTER_NAME \
+          --service $SERVICE_NAME \
+          --force-new-deployment \
+          --region $AWS_REGION
+
+artifacts:
+  files:
+    - imagedefinitions.json
