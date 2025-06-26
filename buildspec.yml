@@ -6,8 +6,8 @@ env:
     ACCOUNT_ID: 779500582907
     REPOSITORY_URI: 779500582907.dkr.ecr.eu-central-1.amazonaws.com/student-crud-api
     CLUSTER_NAME: student-crud-cluster
-    SERVICE_NAME: student-crud-task-service         
-    CONTAINER_NAME: student-crud-container    
+    SERVICE_NAME: student-crud-task-service
+    CONTAINER_NAME: student-crud-container
 
 phases:
   pre_build:
@@ -30,7 +30,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
       - echo Writing imagedefinitions.json file...
-      - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo "[{\"name\":\"$CONTAINER_NAME\",\"imageUri\":\"$REPOSITORY_URI:$IMAGE_TAG\"}]" > imagedefinitions.json
       - echo Deploying to ECS...
       - aws ecs update-service \
           --cluster $CLUSTER_NAME \
